@@ -1,12 +1,12 @@
-import React from 'react';
-import './App.css';
+import React, { useState } from "react";
+import { transformDataToTree, TreeData } from "./utils";
+import { response } from "./data";
 
 function App() {
-  return (
-    <div>
-      Hello
-    </div>
-  );
+  const [data, setData] = useState<TreeData[]>(transformDataToTree(response));
+
+  console.log(data);
+  return <div>Hello</div>;
 }
 
 export default App;
