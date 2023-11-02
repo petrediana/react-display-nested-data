@@ -29,3 +29,24 @@ export const transformDataToTree = (data: Data[]): TreeData[] => {
 
   return tree;
 };
+
+export const transformDataToHashMap = (
+  data: Data[],
+): Record<number, TreeData> => {
+  const hashMap: Record<number, TreeData> = {};
+
+  data.forEach((dataPoint) => {
+    hashMap[dataPoint.id] = { ...dataPoint, children: [] };
+  });
+
+  data.forEach((dataPoint) => {
+    if (dataPoint.parentId) {
+      const parent = hashMap[dataPoint.parentId];
+      if (parent) {
+        parent.children.push(hashMap[dataPoint.id]);
+      }
+    }
+  });
+
+  return hashMap;
+};
