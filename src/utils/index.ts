@@ -1,8 +1,6 @@
 import { Data } from "../data";
 
-export interface TreeData {
-  id: number | null;
-  name: string;
+export interface TreeData extends Data {
   children: TreeData[];
 }
 
