@@ -65,33 +65,39 @@ function App() {
     [checkParents, isChecked, uncheckChildren],
   );
 
-  const renderItem = (items: TreeData[]): JSX.Element => {
-    return (
-      <div>
-        {items.map((item) => (
-          <div key={`${item.name}-${item.id}`} style={{ paddingLeft: "1rem" }}>
-            <span onClick={() => handleOnClickItem(item)}>
-              {item.children.length > 0
-                ? isExpanded[item.id]
-                  ? "V"
-                  : ">"
-                : null}
-            </span>
-            <input
-              type="checkbox"
-              onChange={() => handleOnCheckItem(item)}
-              checked={isChecked[item.id] || false}
-            />
-            {item.name}
-            {isExpanded[item.id] && renderItem(item.children)}
-          </div>
-        ))}
-      </div>
-    );
-  };
+  const renderItem = useCallback(
+    (items: TreeData[]): JSX.Element => {
+      return (
+        <div>
+          {items.map((item) => (
+            <div
+              key={`${item.name}-${item.id}`}
+              style={{ paddingLeft: "1rem" }}
+            >
+              <span onClick={() => handleOnClickItem(item)}>
+                {item.children.length > 0
+                  ? isExpanded[item.id]
+                    ? "V"
+                    : ">"
+                  : null}
+              </span>
+              <input
+                type="checkbox"
+                onChange={() => handleOnCheckItem(item)}
+                checked={isChecked[item.id] || false}
+              />
+              {item.name}
+              {isExpanded[item.id] && renderItem(item.children)}
+            </div>
+          ))}
+        </div>
+      );
+    },
+    [handleOnCheckItem, handleOnClickItem, isChecked, isExpanded],
+  );
 
   return (
-    <div style={{ border: "solid black 1px", padding: "1rem", width: "10rem" }}>
+    <div style={{ border: "solid black 1px", padding: "1rem", width: "11rem" }}>
       {renderItem(data)}
     </div>
   );
